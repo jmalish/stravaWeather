@@ -1,0 +1,35 @@
+@media (min-width: 990px) {
+    .feed .activity.feed-entry.card .entry-body {
+        padding-right: 25px;
+        overflow: hidden;
+    }
+
+    .feed .activity.feed-entry.card .entry-body > .media {
+        background: orange;
+        display: inline-block;
+        float: left;
+        width: 75%;
+    }
+
+    .feed .activity.feed-entry.card .entry-body > .media .entry-icon {
+        float: left;
+    }
+
+    .feed .activity.feed-entry.card .entry-body > .media .media-body {
+        float: left;
+    }
+
+
+    .feed .activity.feed-entry.card .entry-body > .media .media-body .count-achievements {
+        margin-left: 90px;
+    }
+
+    .stravaWeather {
+        float: right;
+        background-color: yellow;
+        display: block;
+    }
+}
+
+
+/* TODO: Need to do CSS for windows less than 990px */

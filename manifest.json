@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+
+  "name": "Strava Weather",
+  "version": "0.1",
+  "description": "Shows weather for a Strava activity",
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [{
+    "css": ["styles.css"],
+    "js": ["content.js"],
+    "matches": ["https://*.strava.com/*"]
+  }],
+  "permissions": [
+    "https://*.strava.com/*"
+  ]
+}
