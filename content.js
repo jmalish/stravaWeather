@@ -1,6 +1,6 @@
 var activityCards = document.getElementsByClassName('activity');
 
-var url = "https://www.strava.com/oauth/authorize?client_id=24632&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=auto&scope=public";
+var url = "https://www.strava.com/oauth/authorize?client_id=24632&response_type=code&redirect_uri=http://strava.jordanmalish.com&approval_prompt=auto&scope=public";
 
 getStravaUserCode(url);
 
@@ -27,7 +27,7 @@ function getStravaUserCode(url) {
     var xhr = new XMLHttpRequest();
 
     xhr.open('GET', url, true);
-    xhr.onreadystatechange = function() {
+    xhr.onload = function() {
         if (xhr.readyState === 4) {
             console.log(xhr.redirectUrl);
         }
