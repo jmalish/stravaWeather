@@ -15,6 +15,6 @@
   }],
   "permissions": [
     "https://*.strava.com/*",
-    "*://*.jordanmalish.com/*"
+    "identity"
   ]
 }
