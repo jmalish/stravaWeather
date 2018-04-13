@@ -4,6 +4,10 @@ thisTest();
 
 
 for (var i = 0; i < activityCards.length; i++) {
+    // addDiv();
+}
+
+function addDiv() {
     var activityID = activityCards[i].id.split("-")[1]; // get ID from element
 
     var mediaDiv = activityCards[i].getElementsByClassName("entry-body")[0].getElementsByClassName("media")[0]; // get the media div inside the entry-body div

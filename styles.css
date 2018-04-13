@@ -1,3 +1,9 @@
+body.popup {
+    height: 200px;
+    width: 150px;
+}
+
+/*
 @media (min-width: 990px) {
     .feed .activity.feed-entry.card .entry-body {
         padding-right: 25px;
@@ -30,6 +36,6 @@
         display: block;
     }
 }
-
+*/
 
 /* TODO: Need to do CSS for windows less than 990px */
