@@ -1,6 +1,10 @@
 var activityCards = document.getElementsByClassName('activity');
+var userCode;
 
-thisTest();
+
+getUserCode(function(newCode) {
+    userCode = newCode;
+});
 
 
 for (var i = 0; i < activityCards.length; i++) {
@@ -19,9 +23,9 @@ function addDiv() {
     mediaDiv.parentNode.insertBefore(weatherDiv, mediaDiv.nextSibling); // insert our weather div after the media div
 }
 
-function thisTest() {
-    chrome.runtime.sendMessage({getCode: "code"}, function(response) {
-        console.log(response.code);
+function getUserCode(callback) {
+    chrome.runtime.sendMessage({getAuthCode: "retrieve"}, function(response) {
+        callback(response.code);
     });
 }
 

@@ -1,19 +1,23 @@
-console.log("Hi! My ID is " + chrome.runtime.id);
-console.log("css disabled");
+var code = getUserCodeFromStorage();
 
-// var apiURL = "strava.jordanmalish.com";
-var code;
-
-
+console.log(code);
 // startup();
 // getStravaUserCode();
-setCodeInStorage("newCode");
-getUserCodeFromStorage();
-
-
 
 function startup() {
-    console.log("running startup");
+    console.log("Hi! My ID is " + chrome.runtime.id);
+
+    if (!code) { // if the code is null or whatever, it doesn't exist in storage
+        // getNewUserCodeFromAuth(function(newCode) {
+        //     if (!newCode) { // if newCode is not false, we have something to put into storage
+        //         code = newCode;
+                
+        //         setCodeInStorage(code, function() {});
+        //     }
+        // });
+    }
+
+    // This block just makes the icon colored, to indicate it's working on the page
     chrome.runtime.onInstalled.addListener(function() {
         chrome.declarativeContent.onPageChanged.removeRules(undefined, function() {
             chrome.declarativeContent.onPageChanged.addRules([{
@@ -26,17 +30,22 @@ function startup() {
         });
     });
 
+    // add listener so we can recieve messages from the content script
     chrome.runtime.onMessage.addListener(
         function(request, sender, sendResponse) {
-            if (request.getCode !== "") {
-                sendResponse({code: "I'm gettin' a code!"});
-                // getStravaUserCode(url);
+            if (request.getAuthCode === "retrieve") {
+                if (!code) {  // code has not be retrieved from storage yet
+
+                }
+                else {
+
+                }
             }
         });
 }
 
 
-function getStravaUserCode() {
+function getNewUserCodeFromAuth(callback) {
     var url = "https://www.strava.com/oauth/authorize?client_id=24632&response_type=code&approval_prompt=auto&scope=public&redirect_uri=";
     var redirectURL = url + chrome.identity.getRedirectURL();
 
@@ -49,24 +58,24 @@ function getStravaUserCode() {
         if (!redirectUri) { // if this is undefined, user didn't approve access, or some other error
             console.log("No permission given :(");
 
-            return false;
+            callback(false);
         } else { // if we did get through
             code = redirectUri.split("code=")[1]; // grab the code from the redirected URL
             console.log("User code = " + code);
 
-            return true;
+            callback(code);
         }
     });
 }
 
-function setCodeInStorage(userCode) {
+function setCodeInStorage(userCode, callback) {
     chrome.storage.sync.set({"swUserCode": userCode}, function () {
-
+        callback(true);
     });
 }
 
-function getUserCodeFromStorage() {
+function getUserCodeFromStorage(callback) {
     chrome.storage.sync.get(["swUserCode"], function (storage) {
-        console.log(storage.swUserCode);
+        callback(storage.swUserCode);
     });
 }
