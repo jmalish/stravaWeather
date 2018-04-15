@@ -4,14 +4,25 @@
   "name": "Strava Weather",
   "version": "0.1",
   "description": "Shows weather for a Strava activity",
+
+  "web_accessible_resources": [
+    "secrets.json"
+  ],
+  "icons": {
+    "128": "images/icon.png"
+  },
+  "permissions": [
+    "https://*.strava.com/*",
+    "identity",
+    "storage",
+    "declarativeContent",
+    "tabs"
+  ],
   "page_action": {
     "default_popup": "popup.html",
     "default_icon": {
       "128": "images/icon.png"
     }
-  },
-  "icons": {
-    "128": "images/icon.png"
   },
   "background": {
     "scripts": ["background.js"],
@@ -21,11 +32,5 @@
     "css": ["styles.css"],
     "js": ["content.js"],
     "matches": ["https://*.strava.com/*"]
-  }],
-  "permissions": [
-    "https://*.strava.com/*",
-    "identity",
-    "storage",
-    "declarativeContent"
-  ]
+  }]
 }
