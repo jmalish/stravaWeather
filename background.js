@@ -2,11 +2,13 @@ let accessToken, code, secrets;
 
 startup();
 
-
-
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 function startup() {
-    getSecrets(function () {});
+    getSecrets(function () {
+        getWeather(37,-76,"20180401", function (data) {
+            console.log(data);
+        });
+    });
 
     getItemFromStorage("swAccessToken", function (response) { // first thing, attempt to get access token
         let newToken = response.swAccessToken; // for sake of ease
@@ -172,5 +174,40 @@ function getSecrets(callback) {
         }
     };
     xhr.open("GET", chrome.runtime.getURL('secrets.json'), true);
+    xhr.send();
+}
+
+function getActivityData(activityID, callback) {
+    let url = "https://www.strava.com/api/v3/activities/" + activityID +
+        "?access_token=" + accessToken;
+
+    console.log(url);
+
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            callback(JSON.parse(xhr.responseText));
+        }
+    };
+    xhr.open("GET", url, true);
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    xhr.send();
+}
+
+function getWeather(latitude, longitude, _date, callback) {
+    let date = _date; // 20180401 expected format YYYYMMDD
+
+    let url = "http://api.wunderground.com/api/" + secrets.wundergroundKey + "/history_" +
+        date + "/q/" + latitude + "," + longitude + ".json";
+
+    console.log(url);
+
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4) {
+            callback(JSON.parse(xhr.responseText));
+        }
+    };
+    xhr.open("GET", url, true);
     xhr.send();
 }
