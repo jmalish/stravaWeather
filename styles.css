@@ -17,30 +17,29 @@ body.popup button:hover {
     background-color: #c93d02;
 }
 
-/*
 @media (min-width: 990px) {
-    .feed .activity.feed-entry.card .entry-body {
+    .feed .activity.feed-entry.card.sw .entry-body {
         padding-right: 25px;
         overflow: hidden;
     }
 
-    .feed .activity.feed-entry.card .entry-body > .media {
+    .feed .activity.feed-entry.card.sw .entry-body > .media {
         background: orange;
         display: inline-block;
         float: left;
         width: 75%;
     }
 
-    .feed .activity.feed-entry.card .entry-body > .media .entry-icon {
+    .feed .activity.feed-entry.card.sw .entry-body > .media .entry-icon {
         float: left;
     }
 
-    .feed .activity.feed-entry.card .entry-body > .media .media-body {
+    .feed .activity.feed-entry.card.sw .entry-body > .media .media-body {
         float: left;
     }
 
 
-    .feed .activity.feed-entry.card .entry-body > .media .media-body .count-achievements {
+    .feed .activity.feed-entry.card.sw .entry-body > .media .media-body .count-achievements {
         margin-left: 90px;
     }
 
@@ -50,6 +49,5 @@ body.popup button:hover {
         display: block;
     }
 }
-*/
 
 /* TODO: Need to do CSS for windows less than 990px */

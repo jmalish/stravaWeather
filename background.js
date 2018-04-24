@@ -1,13 +1,17 @@
 let accessToken, code, secrets;
 
-startup();
+// startup();
+let dateString = "2018-04-23T21:44:17Z"; // need to get to 20180401 format YYYYMMDD
+
+
+
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 function startup() {
     getSecrets(function () {
-        getWeather(37,-76,"20180401", function (data) {
-            console.log(data);
-        });
+        // getWeather(37,-76,"20180401", function (data) {
+        //     console.log(data);
+        // });
     });
 
     getItemFromStorage("swAccessToken", function (response) { // first thing, attempt to get access token
@@ -81,6 +85,12 @@ function startup() {
                     setItemInStorage("swSettingsTemp", request.temp);
                     setItemInStorage("swSettingsWind", request.windSpeed);
                     sendResponse(true);
+                    break;
+
+                case "getWeather":
+                    getWeather(request.activityId, function (weather) {
+                        sendResponse(weather);
+                    });
                     break;
 
                 default:
@@ -194,20 +204,24 @@ function getActivityData(activityID, callback) {
     xhr.send();
 }
 
-function getWeather(latitude, longitude, _date, callback) {
-    let date = _date; // 20180401 expected format YYYYMMDD
+function getWeather(activityId, callback) {
+    getActivityData(activityId, function (activity) {
+        let date = new Date(activity.start_date);
 
-    let url = "http://api.wunderground.com/api/" + secrets.wundergroundKey + "/history_" +
-        date + "/q/" + latitude + "," + longitude + ".json";
+        console.log(date);
 
-    console.log(url);
-
-    let xhr = new XMLHttpRequest();
-    xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-            callback(JSON.parse(xhr.responseText));
-        }
-    };
-    xhr.open("GET", url, true);
-    xhr.send();
+        // let url = "http://api.wunderground.com/api/" + secrets.wundergroundKey + "/history_" +
+        //     activity.date + "/q/" + activity.latitude + "," + activity.longitude + ".json";
+        //
+        // console.log(url);
+        //
+        // let xhr = new XMLHttpRequest();
+        // xhr.onreadystatechange = function () {
+        //     if (xhr.readyState === 4) {
+        //         callback(JSON.parse(xhr.responseText));
+        //     }
+        // };
+        // xhr.open("GET", url, true);
+        // xhr.send();
+    });
 }
