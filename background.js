@@ -1,10 +1,6 @@
 let accessToken, code, secrets;
 
-// startup();
-let dateString = "2018-04-23T21:44:17Z"; // need to get to 20180401 format YYYYMMDD
-
-
-
+startup();
 
 /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 function startup() {
@@ -191,7 +187,7 @@ function getActivityData(activityID, callback) {
     let url = "https://www.strava.com/api/v3/activities/" + activityID +
         "?access_token=" + accessToken;
 
-    console.log(url);
+    // console.log(url);
 
     let xhr = new XMLHttpRequest();
     xhr.onreadystatechange = function () {
@@ -209,19 +205,35 @@ function getWeather(activityId, callback) {
         let date = new Date(activity.start_date);
 
         console.log(date);
+        let response = {
+            weather: undefined,
+            activityDate: activity.start_date
+        };
 
-        // let url = "http://api.wunderground.com/api/" + secrets.wundergroundKey + "/history_" +
-        //     activity.date + "/q/" + activity.latitude + "," + activity.longitude + ".json";
-        //
-        // console.log(url);
-        //
-        // let xhr = new XMLHttpRequest();
-        // xhr.onreadystatechange = function () {
-        //     if (xhr.readyState === 4) {
-        //         callback(JSON.parse(xhr.responseText));
-        //     }
-        // };
-        // xhr.open("GET", url, true);
-        // xhr.send();
+        formatDate(date, function (_date) {
+            let url = "http://api.wunderground.com/api/" + secrets.wundergroundKey + "/history_" +
+                _date + "/q/" + activity.start_latitude + "," + activity.start_longitude + ".json";
+
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) {
+                    response.weather = JSON.parse(xhr.responseText).history;
+
+                    callback(response);
+                }
+            };
+            xhr.open("GET", url, true);
+            xhr.send();
+        });
     });
+}
+
+function formatDate(date, callback) {
+    let month = date.getMonth() + 1;
+    let day = date.getDate();
+
+    if (month < 10) month = "0" + month;
+    if (day < 10) day = "0" + day;
+
+    callback(date.getFullYear() + month + day);
 }

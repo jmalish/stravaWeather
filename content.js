@@ -1,10 +1,8 @@
-let activityID;
-
-
 checkForToken(function (response) {
     getCurrentURL(function (url) {
         if (url === "https://www.strava.com/dashboard") {
             addDivsToDashboardPage();
+
         } else if (url.split("strava.com/")[1].split('/')[0] === "activities") {
             getActivityId(url, function (actId) {
                 // console.log("Activities page for activity ID " + actId);
@@ -46,6 +44,9 @@ function addDiv(activityCard) {
     activityCard.className += " sw";
 
     getWeatherForActivity(activityID, function (weather) {
+
+        console.log(weather);
+
         let mediaDiv = activityCard.getElementsByClassName("entry-body")[0].getElementsByClassName("media")[0]; // get the media div inside the entry-body div
 
         let weatherDiv = document.createElement('div'); // create our weather div
